@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/logan.rudd/Work/repos/mlflow-example/mlruns/0/36dd723e16ba46f19d8d9c951c59281d/artifacts
+end_time: 1596226085490
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 36dd723e16ba46f19d8d9c951c59281d
+run_uuid: 36dd723e16ba46f19d8d9c951c59281d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1596226035964
+status: 3
+tags: []
+user_id: logan.rudd
