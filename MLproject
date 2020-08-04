@@ -3,5 +3,9 @@ name: tutorial
 conda_env: conda.yaml
 
 entry_points:
-  main:
+  load_raw_data:
     command: "python load_raw_data.py"
+  main:
+    parameters:
+      split_prop: {type: float, default: 0.8}
+    command: "python main.py --split_prop {split_prop}"
