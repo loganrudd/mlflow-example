@@ -24,14 +24,14 @@ def workflow(split_prop):
             .get_run(load_raw_data_run.run_id)
         loans_csv_uri = os.path.join(load_raw_data_run_id.info.artifact_uri,
                                      "loans-raw-csv-dir")
-        '''
+
         etl_data_run = mlflow.run(".", "etl_data",
                                   parameters={"loans_csv_uri": loans_csv_uri})
         etl_data_run_id = mlflow.tracking.MlflowClient() \
             .get_run(etl_data_run.run_id)
         loans_parquet_uri = os.path.join(etl_data_run_id.info.artifact_uri,
                                          "loans-processed-parquet-dir")
-        '''
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--split_prop', default=0.8, type=float)
