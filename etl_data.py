@@ -14,7 +14,6 @@ def etl_data(loans_csv_uri):
     with mlflow.start_run(nested=True) as mlrun:
         tmpdir = tempfile.mkdtemp()
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
-        spark = pyspark.sql.SparkSession.builder.getOrCreate()
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
         loans = spark.read.option("header", "true")\
