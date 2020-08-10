@@ -7,17 +7,21 @@ import pyspark
 import mlflow
 import argparse
 from pyspark.sql.functions import *
+from pyspark.sql import SQLContext
+
+
 
 
 # file:///Users/logan.rudd/Work/repos/mlflow-mswf-poc/mlruns/0/297ca0ec1f634e3ea2d7f3631d76b310/artifacts/loans-raw-csv-dir
-def etl_data(loans_csv_uri, sc):
+def etl_data(loans_csv_uri):
     with mlflow.start_run(nested=True) as mlrun:
         tmpdir = tempfile.mkdtemp()
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
-
-        loans = sc.read.option("header", "true")\
+        sc = pyspark.SparkContext.getOrCreate()
+        sqlContext = SQLContext(sc)
+        loans = sqlContext.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
 
         print("Create bad loan label, this will include charged off, defaulted,"
@@ -48,5 +52,4 @@ if __name__ == '__main__':
     parser.add_argument("-u", "--loans_csv_uri")
     args = parser.parse_args()
 
-    spark_context = pyspark.SparkContext.getOrCreate()
-    etl_data(args.loans_csv_uri, sc=spark_context)
+    etl_data(args.loans_csv_uri)
