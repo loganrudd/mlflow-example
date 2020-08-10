@@ -16,10 +16,8 @@ def etl_data(loans_csv_uri):
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
-        master = "local[*]"
-        app_name = "MLflow PoC"
-        spark = pyspark.sql.SparkSession.builder.master(master).appName(
-            app_name).getOrCreate()
+
+        spark = pyspark.SparkContext.getOrCreate()
 
         loans = spark.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
