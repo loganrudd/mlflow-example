@@ -19,7 +19,7 @@ def etl_data(loans_csv_uri):
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
-        #sc = pyspark.SparkContext.config("spark.master", "local").getOrCreate()
+        sc = pyspark.SparkContext.config("spark.master", "local").getOrCreate()
         sqlContext = SQLContext(sc)
         loans = sqlContext.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
