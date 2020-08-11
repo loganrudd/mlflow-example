@@ -15,15 +15,13 @@ from pyspark.sql import SparkSession
 
 
 # file:///Users/logan.rudd/Work/repos/mlflow-mswf-poc/mlruns/0/297ca0ec1f634e3ea2d7f3631d76b310/artifacts/loans-raw-csv-dir
-def etl_data(loans_csv_uri):
+def etl_data(loans_csv_uri, spark):
     with mlflow.start_run(nested=True) as mlrun:
         tmpdir = tempfile.mkdtemp()
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
-        #sc = pyspark.SparkContext('spark://10.205.195.38:7077', 'Databricks Shell').getOrCreate()
-        spark_builder = SparkSession.builder.master("spark://10.205.215.144:7077").appName("test")
-        spark = spark_builder.getOrCreate()
+
         loans = spark.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
 
@@ -54,5 +52,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--loans_csv_uri")
     args = parser.parse_args()
-
-    etl_data(args.loans_csv_uri)
+    spark = SparkSession.builder.getOrCreate()
+    etl_data(args.loans_csv_uri, spark)
