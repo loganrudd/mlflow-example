@@ -22,7 +22,7 @@ def etl_data(loans_csv_uri):
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
         #sc = pyspark.SparkContext('spark://10.205.195.38:7077', 'Databricks Shell').getOrCreate()
-        spark_builder = SparkSession.builder.master("local[*]").appName("test")
+        spark_builder = SparkSession.builder.master("spark://10.205.215.144:7077").appName("test")
         spark = spark_builder.getOrCreate()
         loans = spark.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
