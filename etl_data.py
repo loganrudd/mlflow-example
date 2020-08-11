@@ -8,6 +8,8 @@ import mlflow
 import argparse
 from pyspark.sql.functions import *
 from pyspark.sql import SQLContext
+from pyspark.sql import SparkSession
+
 
 
 
@@ -19,9 +21,9 @@ def etl_data(loans_csv_uri):
         loans_parquet_dir = os.path.join(tmpdir, 'loans-parquet')
         print("Converting ratings CSV %s to Parquet %s" % (loans_csv_uri,
                                                            loans_parquet_dir))
-        sc = pyspark.SparkContext('spark://10.205.195.38:7077', 'Databricks Shell').getOrCreate()
-        sqlContext = SQLContext(sc)
-        loans = sqlContext.read.option("header", "true")\
+        #sc = pyspark.SparkContext('spark://10.205.195.38:7077', 'Databricks Shell').getOrCreate()
+        spark = SparkSession.builder.getOrCreate()
+        loans = spark.read.option("header", "true")\
             .option("inferSchema", "true").csv(loans_csv_uri)
 
         print("Create bad loan label, this will include charged off, defaulted,"
