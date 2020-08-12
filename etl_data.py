@@ -54,7 +54,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     spark_url = "spark://10.205.201.135:7077"
     app_name = "Databricks Shell"
-    spark_builder = SparkSession.builder.master(spark_url).appName(app_name)
-    spark = spark_builder.getOrCreate()
+    spark = SparkSession.getActiveSession()
 
     etl_data(args.loans_csv_uri, spark)
