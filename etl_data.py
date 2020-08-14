@@ -60,7 +60,7 @@ if __name__ == '__main__':
     parser.add_argument("-u", "--loans_csv_uri")
     args = parser.parse_args()
     findspark.init()
-    sc = SparkContext(appName="Databricks Shell")
-    spark = SQLContext(sc)
+    spark_builder = SparkSession.builder.master("local[*]").appName("test")
+    spark = spark_builder.getOrCreate()
 
     etl_data(args.loans_csv_uri, spark)
