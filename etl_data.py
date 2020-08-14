@@ -2,10 +2,16 @@
 Converts the raw CSV form to a Parquet form with just the columns we want
 """
 import tempfile
-import os
-import pyspark
 import mlflow
 import argparse
+
+import os
+import sys
+
+os.environ['SPARK_HOME'] = "/databricks/spark"
+sys.path.append("/databricks/spark/python/")
+
+from pyspark import SparkConf, SparkContext
 from pyspark.sql.functions import *
 from pyspark.sql import SQLContext
 from pyspark.sql import SparkSession
@@ -53,8 +59,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--loans_csv_uri")
     args = parser.parse_args()
-    spark = findspark.init()
-    sc = spark.SparkContext(appName="Databricks Shell")
+    findspark.init()
+    sc = SparkContext()
     spark = SQLContext(sc)
 
     etl_data(args.loans_csv_uri, spark)
