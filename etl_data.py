@@ -9,6 +9,7 @@ import argparse
 from pyspark.sql.functions import *
 from pyspark.sql import SQLContext
 from pyspark.sql import SparkSession
+import findspark
 
 
 
@@ -52,7 +53,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--loans_csv_uri")
     args = parser.parse_args()
-    spark_builder = SparkSession.builder.master("local[*]").appName("test")
-    spark = spark_builder.getOrCreate()
+    spark = findspark.init()
+    sc = spark.SparkContext(appName="Databricks Shell")
+    spark = SQLContext(sc)
 
     etl_data(args.loans_csv_uri, spark)
