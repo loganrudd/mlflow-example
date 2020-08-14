@@ -8,7 +8,7 @@ import argparse
 import os
 import sys
 
-os.environ['SPARK_HOME'] = "/databricks/spark"
+os.environ['SPARK_HOME'] = "/databricks/spark/"
 sys.path.append("/databricks/spark/python/")
 
 from pyspark import SparkConf, SparkContext
